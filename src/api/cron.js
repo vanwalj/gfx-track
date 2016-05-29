@@ -27,6 +27,7 @@ const job = new CronJob({
         return extractor.extract()
           .then(({ price, inStock }) =>
             orm.models.Probe.findOne({
+              where: { ResellerVideoCardId: resellerVideoCard.id },
               order: [['updatedAt', 'DESC']]
             })
               .then(probe => {
