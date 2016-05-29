@@ -72,8 +72,12 @@ const videoCardRouter = new Router({
 videoCardRouter.get('/', async ctx => {
   ctx.body = await orm.models.VideoCard.findAll({
     include: [
-      { model: orm.models.File, as: 'Logos', attributes: ['id', 'contentType', 'url'] },
-      { model: orm.models.Manufacturer }
+      { model: orm.models.File, as: 'Logos', attributes: ['id', 'contentType', 'url']},
+      { model: orm.models.Manufacturer },
+      { model: orm.models.ResellerVideoCard, include: [
+        { model: orm.models.Reseller },
+        { model: orm.models.Probe, limit: 1, order: [['updatedAt', 'DESC']] }
+      ] }
     ]
   });
 });

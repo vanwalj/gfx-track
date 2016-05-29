@@ -9,6 +9,8 @@ import IconButton from 'material-ui/IconButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import VideoCardTileSubtitle from './video-card-tile-subtitle';
+
 export default ({ videoCards, userAgent, toggleDrawer, drawerIsOpen }) => (
   <MuiThemeProvider muiTheme={getMuiTheme({
     palette: {
@@ -41,8 +43,10 @@ export default ({ videoCards, userAgent, toggleDrawer, drawerIsOpen }) => (
           {videoCards.list.map((videoCard, idx) => (
             <GridTile
               key={idx}
-              title={videoCard.name}
-              subtitle={<span><b>{videoCard.Manufacturer.name}</b></span>}
+              title={<span><b>{videoCard.Manufacturer.name}</b> {videoCard.name}</span>}
+              subtitle={
+                <VideoCardTileSubtitle videoCard={videoCard} />
+              }
             >
               {
                 videoCard.Logos && videoCard.Logos.length ?

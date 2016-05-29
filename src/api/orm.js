@@ -79,7 +79,9 @@ VideoCard.belongsTo(Manufacturer);
 VideoCard.belongsToMany(Reseller, { through: { model: ResellerVideoCard } });
 Reseller.belongsToMany(VideoCard, { through: { model: ResellerVideoCard } });
 ResellerVideoCard.belongsTo(Reseller);
+Reseller.hasMany(ResellerVideoCard);
 ResellerVideoCard.belongsTo(VideoCard);
+VideoCard.hasMany(ResellerVideoCard);
 
 ResellerVideoCard.hasMany(Probe);
 Probe.belongsTo(ResellerVideoCard);
