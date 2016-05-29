@@ -8,9 +8,9 @@ const extractors = require('./extractors');
 
 const createProbeAndNotify = (resellerVideoCard, latestProbe, { price, inStock }) =>
     orm.models.Probe.create({
-      price, inStock,
-      ResellerVideoCardVideoCardId: resellerVideoCard.id
+      price, inStock
     })
+      .then(probe => probe.setResellerVideoCard(resellerVideoCard))
   // TODO Notify users
   ;
 
