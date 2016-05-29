@@ -4,7 +4,9 @@ const Sequelize = require('sequelize');
 
 const config = require('./config');
 
-const orm = module.exports = new Sequelize(config.DATABASE_URL);
+const orm = module.exports = new Sequelize(config.DATABASE_URL, {
+  native: true
+});
 
 const File = orm.define('File', {
   content: Sequelize.BLOB,
