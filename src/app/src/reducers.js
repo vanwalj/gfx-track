@@ -3,17 +3,17 @@
 import { combineReducers } from 'redux'
 
 import {
-  RECEIVE_GFX, REQUEST_GFX
+  RECEIVE_VIDEO_CARDS, REQUEST_VIDEO_CARDS
 } from './actions'
 
-const gfx = (state = { isFetching: false, list: [], failed: false }, action) => {
+const videoCards = (state = { isFetching: false, list: [], failed: false }, action) => {
   switch (action.type) {
-    case REQUEST_GFX:
+    case REQUEST_VIDEO_CARDS:
       return {
         ...state,
         isFetching: true
       };
-    case RECEIVE_GFX:
+    case RECEIVE_VIDEO_CARDS:
       return {
         ...state,
         isFetching: false,
@@ -25,5 +25,5 @@ const gfx = (state = { isFetching: false, list: [], failed: false }, action) => 
 };
 
 export default combineReducers({
-  gfx
+  videoCards
 });

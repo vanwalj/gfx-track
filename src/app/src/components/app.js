@@ -4,21 +4,31 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Layout from './layout';
-import { fetchGFX } from '../actions';
+import { fetchVideoCards } from '../actions';
 
 class App extends Component {
-  componentDidMount () {
-    const { dispatch } = this.props;
-
-    dispatch(fetchGFX());
+  constructor (props) {
+    super(props);
+    this.state = {
+      drawerIsOpen: false
+    };
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+  }
+  toggleDrawer () {
+    this.setState({ drawerIsOpen: !this.state.drawerIsOpen });
   }
   render () {
-    const { gfx } = this.props;
+    const { videoCards, userAgent = navigator.userAgent } = this.props;
 
-    return (<Layout gfx={gfx} />);
+    return (<Layout
+      videoCards={videoCards}
+      userAgent={userAgent}
+      toggleDrawer={this.toggleDrawer}
+      drawerIsOpen={this.state.drawerIsOpen}
+    />);
   }
 }
 
-const mapStateToProps = ({ gfx }) => ({ gfx });
+const mapStateToProps = ({ videoCards }) => ({ videoCards });
 
 export default connect(mapStateToProps)(App);

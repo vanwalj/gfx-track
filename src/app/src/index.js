@@ -12,16 +12,13 @@ import configureStore from './store';
 
 import App from './components/app';
 
-const store = configureStore();
+const initialState = window['__INITIAL_STATE__'];
+const store = configureStore(initialState);
 
-class Root extends React.Component {
-  render () {
-    return (
-      <Provider store={store}>
-        <App/>
-      </Provider>
-    );
-  }
-}
+const Root = () => (
+  <Provider store={store}>
+    <App/>
+  </Provider>
+);
 
-ReactDOM.render(<Root/>, document.getElementById('app'));
+ReactDOM.render(<Root/>, document.getElementById('root'));

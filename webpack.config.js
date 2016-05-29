@@ -1,11 +1,11 @@
 'use strict';
 
+const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: ['./src/index.js'],
-  output: { path: path.resolve(__dirname, 'dist'), filename: 'bundle.js' },
+  entry: ['./src/app/src/index.js'],
+  output: { path: path.resolve(__dirname, 'src/app/dist'), filename: 'bundle.js' },
   cache: true,
   debug: true,
   devtool: 'source-map',
@@ -24,9 +24,15 @@ module.exports = {
     }]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Hello',
-      template: './src/index.ejs'
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
     })
   ],
   devServer: {

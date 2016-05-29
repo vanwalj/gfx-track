@@ -4,22 +4,22 @@ import fetch from 'isomorphic-fetch';
 
 const API_BASE_PATH = 'https://api-gfx-track.herokuapp.com/';
 
-export const REQUEST_GFX = 'REQUEST_GFX';
-export const RECEIVE_GFX = 'REQUEST_GFX';
+export const REQUEST_VIDEO_CARDS = 'REQUEST_VIDEO_CARDS';
+export const RECEIVE_VIDEO_CARDS = 'RECEIVE_VIDEO_CARDS';
 
-const requestGFX = () => ({
-  type: REQUEST_GFX
+const requestVideoCards = () => ({
+  type: REQUEST_VIDEO_CARDS
 });
 
-const receiveGFX = list => ({
-  type: RECEIVE_GFX,
+const receiveVideoCards = list => ({
+  type: RECEIVE_VIDEO_CARDS,
   list
 });
 
-export const fetchGFX = () =>
+export const fetchVideoCards = () =>
   dispatch => {
-    dispatch(requestGFX());
-    return fetch(`${API_BASE_PATH}/gfx`)
+    dispatch(requestVideoCards());
+    return fetch(`${API_BASE_PATH}/video-cards`)
       .then(response => response.json())
-      .then(gfx => dispatch(receiveGFX(gfx)));
+      .then(videoCards => dispatch(receiveVideoCards(videoCards)));
   };
