@@ -7,9 +7,10 @@ const extractors = require('../extractors');
 
 const createProbeAndNotify = (resellerVideoCard, latestProbe, { price, inStock }) =>
     orm.models.Probe.create({
-        price, inStock
-      })
-      .then(probe => probe.setResellerVideoCard(resellerVideoCard))
+      price, inStock,
+      probedAt: new Date(),
+      ResellerVideoCardId: resellerVideoCard.id
+    })
 // TODO Notify users
   ;
 
@@ -31,7 +32,7 @@ module.exports = () =>
             if (!probe || probe.price !== price || probe.inStock !== inStock) {
               return createProbeAndNotify(resellerVideoCard, probe, { price, inStock })
             }
-            return probe.update();
+            return probe.update({ probedAt: new Date() });
           })
       )
       .catch(err => console.error(err));

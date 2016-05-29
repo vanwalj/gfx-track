@@ -16,7 +16,8 @@ const File = orm.define('File', {
 
 const Probe = orm.define('Probe', {
   price: Sequelize.FLOAT,
-  inStock: Sequelize.BOOLEAN
+  inStock: Sequelize.BOOLEAN,
+  probedAt: Sequelize.DATE
 });
 
 const ResellerVideoCard = orm.define('ResellerVideoCard', {

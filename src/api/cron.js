@@ -10,7 +10,7 @@ const probeJob = new CronJob({
     jobs.probe()
       .then(() => {
         console.log('Cron ended');
-      })
+      });
   }
 });
 
