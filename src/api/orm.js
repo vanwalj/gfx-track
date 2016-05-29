@@ -46,6 +46,10 @@ const VideoCard = orm.define('VideoCard', {
   powerInput: Sequelize.STRING
 });
 
+const User = orm.define('User', {
+  email: Sequelize.STRING
+});
+
 Reseller.hasOne(File, { as: 'Logo' });
 File.belongsTo(Reseller);
 

@@ -10,7 +10,7 @@
     "postinstall": "npm run clean && npm run build",
     "buildfront": "webpack",
     "buildserver": "babel src/api --out-dir lib/api && babel src/app/src --out-dir lib/app/src && cp -rf src/app/dist lib/app/dist",
-    "build": "npm run buildFront && npm run buildServer",
+    "build": "npm run buildfront && npm run buildserver",
     "devserver": "nodemon bin/www",
     "dev": "nodemon bin/www"
   },

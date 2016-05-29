@@ -6,8 +6,16 @@ const CronJob = require('cron').CronJob;
 const orm = require('./orm');
 const extractors = require('./extractors');
 
+const createProbeAndNotify = (resellerVideoCard, latestProbe, { price, inStock }) =>
+    orm.models.Probe.create({
+      price, inStock,
+      ResellerVideoCardVideoCardId: resellerVideoCard.id
+    })
+  // TODO Notify users
+  ;
+
 const job = new CronJob({
-  cronTime: '*/1 * * * *',
+  cronTime: '*/5 * * * *',
   onTick: () => {
     Promise.try(() => orm.models.ResellerVideoCard.findAll({
       include: [
@@ -18,10 +26,15 @@ const job = new CronJob({
         const extractor = new extractors[resellerVideoCard.Reseller.slug](resellerVideoCard.url);
         return extractor.extract()
           .then(({ price, inStock }) =>
-            orm.models.Probe.create({
-              price, inStock
+            orm.models.Probe.findOne({
+              order: [['updatedAt', 'DESC']]
             })
-              .then(Probe => Probe.setResellerVideoCard(resellerVideoCard))
+              .then(probe => {
+                if (!probe || probe.price !== price || probe.inStock !== inStock) {
+                  return createProbeAndNotify(resellerVideoCard, probe, { price, inStock })
+                }
+                return probe.update();
+              })
           )
           .catch(err => console.error(err));
       })
