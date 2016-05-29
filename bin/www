@@ -3,7 +3,7 @@
 
 const app = require('../');
 
-app.orm.sync({ force: true })
+app.orm.sync()
   .then(() => app.jobs.start())
   .then(() => app.server.listen(process.env.PORT))
   .catch(err => console.error(err));
