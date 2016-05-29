@@ -18,6 +18,11 @@ const Probe = orm.define('Probe', {
 });
 
 const ResellerVideoCard = orm.define('ResellerVideoCard', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   url: Sequelize.STRING
 });
 
