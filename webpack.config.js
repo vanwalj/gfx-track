@@ -36,8 +36,8 @@ module.exports = {
     })
   ],
   devServer: {
-    outputPath: path.join(__dirname, 'dist'),
-    contentBase: 'dist',
+    outputPath: path.join(__dirname, 'src/app/dist'),
+    contentBase: 'src/app/dist',
     inline: true,
     open: true
   }

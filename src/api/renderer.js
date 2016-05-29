@@ -10,7 +10,7 @@ const orm = require('./orm');
 const App = require('../app/src/components/app').default;
 const reducer = require('../app/src/reducers').default;
 
-const renderFullPage = (html, initialState) => `
+const renderFullPage = (html, initialState, scriptLocation) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -30,7 +30,7 @@ const renderFullPage = (html, initialState) => `
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
-        <script src="/static/bundle.js"></script>
+        <script src="${ scriptLocation }"></script>
     </body>
   </html>
 `;
@@ -39,7 +39,12 @@ const renderFullPage = (html, initialState) => `
 module.exports = () => async ctx => {
   const initialState = {
     videoCards: {
-      list: await orm.models.VideoCard.findAll()
+      list: await orm.models.VideoCard.findAll({
+        include: [
+          { model: orm.models.File, as: 'Logos', attributes: ['id', 'contentType', 'url']},
+          { model: orm.models.Manufacturer }
+        ]
+      })
     }
   };
   const store = redux.createStore(reducer, initialState);
@@ -49,5 +54,6 @@ module.exports = () => async ctx => {
     </Provider>
   );
   const finalState = store.getState();
-  ctx.body = renderFullPage(html, finalState);
+  const scriptLocation = process.env.NODE_ENV === 'dev' ? 'http://localhost:8080/bundle.js' : '/static/bundle.js';
+  ctx.body = renderFullPage(html, finalState, scriptLocation);
 };

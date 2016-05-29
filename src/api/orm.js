@@ -11,7 +11,13 @@ const orm = module.exports = new Sequelize(config.DATABASE_URL, {
 const File = orm.define('File', {
   content: Sequelize.BLOB,
   contentType: Sequelize.STRING,
-  contentLength: Sequelize.INTEGER
+  contentLength: Sequelize.INTEGER,
+  url: {
+    type: Sequelize.VIRTUAL,
+    get () {
+      return `/files/${ this.id }`;
+    }
+  }
 });
 
 const Probe = orm.define('Probe', {

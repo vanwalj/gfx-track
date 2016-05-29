@@ -35,14 +35,20 @@ export default ({ videoCards, userAgent, toggleDrawer, drawerIsOpen }) => (
         </Toolbar>
       </Drawer>
       <div style={{ paddingTop: 64 }}>
-        <GridList>
+        <GridList cellHeight={300} style={{
+          overflowY: 'auto'
+        }}>
           {videoCards.list.map((videoCard, idx) => (
             <GridTile
               key={idx}
-              title={videoCard.title}
-              subtitle={<span>by <b>{videoCard.vendor}</b></span>}
+              title={videoCard.name}
+              subtitle={<span><b>{videoCard.Manufacturer.name}</b></span>}
             >
-              <img src={videoCard.img}/>
+              {
+                videoCard.Logos && videoCard.Logos.length ?
+                  <img src={videoCard.Logos[0].url} /> :
+                  <img src="http://www.material-ui.com/images/grid-list/camera-813814_640.jpg" />
+              }
             </GridTile>
           ))}
         </GridList>

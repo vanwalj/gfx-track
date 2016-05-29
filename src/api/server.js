@@ -24,10 +24,11 @@ const ssrCache = {};
 ssrRouter.get('/', renderer());
 ssrRouter.get('/files/:fileId', async ctx => {
   const file = await orm.models.File.findById(ctx.params.fileId);
-  ctx.assert(file);
+  ctx.assert(file, 404);
   ctx.set('content-type', file.contentType);
   ctx.body = file.content;
 });
+
 ssrRouter.get('/static/:ressource', async ctx => {
   if (ssrCache[ctx.params.ressource]) {
     if (ssrCache[ctx.params.ressource].exist) {
@@ -69,7 +70,12 @@ const videoCardRouter = new Router({
 });
 
 videoCardRouter.get('/', async ctx => {
-  ctx.body = await orm.models.VideoCard.getAll();
+  ctx.body = await orm.models.VideoCard.findAll({
+    include: [
+      { model: orm.models.File, as: 'Logos', attributes: ['id', 'contentType', 'url'] },
+      { model: orm.models.Manufacturer }
+    ]
+  });
 });
 
 server.use(videoCardRouter.routes());
