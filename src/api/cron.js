@@ -17,6 +17,7 @@ const createProbeAndNotify = (resellerVideoCard, latestProbe, { price, inStock }
 const job = new CronJob({
   cronTime: '*/5 * * * *',
   onTick: () => {
+    console.log('Cron started');
     Promise.try(() => orm.models.ResellerVideoCard.findAll({
       include: [
         { model: orm.models.Reseller }
@@ -38,6 +39,9 @@ const job = new CronJob({
               })
           )
           .catch(err => console.error(err));
+      })
+      .then(() => {
+        console.log('Cron ended');
       })
   }
 });
