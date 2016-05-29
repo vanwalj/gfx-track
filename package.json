@@ -7,11 +7,11 @@
     "start": "bin/www",
     "test": "mocha",
     "clean": "rm -rf lib src/app/dist",
-    "postInstall": "npm run clean && npm run build",
-    "buildFront": "webpack",
-    "buildServer": "babel src --out-dir lib",
+    "postinstall": "npm run clean && npm run build",
+    "buildfront": "webpack",
+    "buildserver": "babel src/api --out-dir lib/api && babel src/app/src --out-dir lib/app/src && cp -rf src/app/dist lib/app/dist",
     "build": "npm run buildFront && npm run buildServer",
-    "devServer": "nodemon bin/www",
+    "devserver": "nodemon bin/www",
     "dev": "nodemon bin/www"
   },
   "engines": [
@@ -42,12 +42,6 @@
     "eslint": "^2.11.0",
     "material-ui": "^0.15.0",
     "nodemon": "^1.9.2",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-redux": "^4.4.5",
-    "react-tap-event-plugin": "^1.0.0",
-    "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0",
     "webpack": "^1.13.1"
   },
   "dependencies": {
@@ -63,6 +57,12 @@
     "pg": "^4.5.5",
     "pg-native": "^1.10.0",
     "random-ua": "0.0.6",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "react-tap-event-plugin": "^1.0.0",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
     "redux": "^3.5.2",
     "sequelize": "^3.23.3"
   }
