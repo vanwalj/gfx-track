@@ -21,7 +21,6 @@ server.use(cors());
 const ssrRouter = new Router();
 const ssrCache = {};
 
-ssrRouter.get('/', renderer());
 ssrRouter.get('/files/:fileId', async ctx => {
   const file = await orm.models.File.findById(ctx.params.fileId);
   ctx.assert(file, 404);
@@ -84,3 +83,5 @@ videoCardRouter.get('/', async ctx => {
 
 server.use(videoCardRouter.routes());
 server.use(videoCardRouter.allowedMethods());
+// In case no route match, render react and let the front router handle 404
+server.use(renderer());
