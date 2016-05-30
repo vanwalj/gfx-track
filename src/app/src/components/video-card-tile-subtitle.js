@@ -15,6 +15,7 @@ module.exports = ({ videoCard }) => {
           return acc;
         }, null
       );
+      if (!probe) return acc;
       if (!acc) return { resellerVideoCard, probe };
       if (probe.inStock && !acc.probe.inStock) return { resellerVideoCard, probe };
       if (probe.price < acc.probe.price) return { resellerVideoCard, probe };
@@ -23,9 +24,9 @@ module.exports = ({ videoCard }) => {
   );
   if (!result) return <span>Non disponible</span>;
   return (
-    <span>
+    <a href={result.resellerVideoCard.url}>
       {result.probe.inStock ? 'En stock' : 'Hors stock'} à partir de&nbsp;
       <b><Price value={result.probe.price} /></b>
-    </span>
+    </a>
   );
 };
