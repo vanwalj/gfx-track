@@ -1,6 +1,7 @@
 'use strict';
 
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 
 import {
   RECEIVE_VIDEO_CARDS, REQUEST_VIDEO_CARDS
@@ -25,5 +26,6 @@ const videoCards = (state = { isFetching: false, list: [], failed: false }, acti
 };
 
 export default combineReducers({
-  videoCards
+  videoCards,
+  routing: routerReducer
 });
