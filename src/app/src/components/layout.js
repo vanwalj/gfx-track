@@ -36,26 +36,26 @@ export default ({ videoCards, userAgent, toggleDrawer, drawerIsOpen }) => (
           </ToolbarGroup>
         </Toolbar>
       </Drawer>
-      <div style={{ paddingTop: 64 }}>
-        <GridList cellHeight={300} style={{
-          overflowY: 'auto'
-        }}>
-          {videoCards.list.map((videoCard, idx) => (
-            <GridTile
-              key={idx}
-              title={<span><b>{videoCard.Manufacturer.name}</b> {videoCard.name}</span>}
-              subtitle={
-                <VideoCardTileSubtitle videoCard={videoCard} />
-              }
-            >
-              {
-                videoCard.Logos && videoCard.Logos.length ?
-                  <img src={videoCard.Logos[0].url} /> :
-                  <img src="http://www.material-ui.com/images/grid-list/camera-813814_640.jpg" />
-              }
-            </GridTile>
-          ))}
-        </GridList>
+    <div style={{ paddingTop: 64 }}>
+      <div style={{ margin: '28px 42px' }}>
+          <GridList cellHeight={300} >
+            {videoCards.list.map((videoCard, idx) => (
+              <GridTile
+                key={idx}
+                title={<span><b>{videoCard.Manufacturer.name}</b> {videoCard.name}</span>}
+                subtitle={
+                  <VideoCardTileSubtitle videoCard={videoCard} />
+                }
+              >
+                {
+                  videoCard.Logos && videoCard.Logos.length ?
+                    <img src={videoCard.Logos[0].url} /> :
+                    <img src="http://www.material-ui.com/images/grid-list/camera-813814_640.jpg" />
+                }
+              </GridTile>
+            ))}
+          </GridList>
+        </div>
       </div>
     </div>
   </MuiThemeProvider>
