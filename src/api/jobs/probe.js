@@ -29,8 +29,6 @@ const createProbeAndNotify = (resellerVideoCard, latestProbe, { price, inStock }
       ResellerVideoCardId: resellerVideoCard.id
     })
       .then(probe => {
-        console.log('1', resellerVideoCard.VideoCard.Manufacturer.name);
-        console.log('2', resellerVideoCard.VideoCard.name);
         if (!latestProbe) {
           tweet(`Les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } sont maintenant listés chez ${ resellerVideoCard.Reseller.name } ! ${ resellerVideoCard.url }`);
         }

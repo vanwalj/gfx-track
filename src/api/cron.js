@@ -4,7 +4,7 @@ const jobs = require('./jobs');
 const CronJob = require('cron').CronJob;
 
 const probeJob = new CronJob({
-  cronTime: '*/1 * * * *',
+  cronTime: '*/5 * * * *',
   onTick: () => {
     console.log('Cron started');
     jobs.probe()
