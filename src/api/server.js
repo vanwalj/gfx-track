@@ -8,7 +8,7 @@ const cors = require('kcors');
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
-
+const bodyParser = require('koa-bodyparser');
 const renderer = require('./renderer');
 
 const orm = require('./orm');
@@ -18,17 +18,41 @@ const gzipAsync = Promise.promisify(zlib.gzip, { context: zlib });
 const server = module.exports = new Koa();
 server.use(cors());
 
-const ssrRouter = new Router();
+const baseRouter = new Router();
 const ssrCache = {};
 
-ssrRouter.get('/files/:fileId', async ctx => {
+baseRouter.post('/register',
+  bodyParser(),
+  async ctx => {
+    const { email, videoCardIds } = ctx.request.body;
+    ctx.assert(email, videoCardIds, 400);
+    let user = await orm.models.User.findOne({ email });
+    if (!user) {
+      user = await orm.models.User.create({ email });
+    }
+    await user.setVideoCards(videoCardIds);
+    ctx.status = 204;
+  }
+);
+
+baseRouter.get('/unregister',
+  async ctx => {
+    ctx.assert(ctx.request.query.email, 400);
+    const user = await orm.models.User.findOne({ email: ctx.request.query.email });
+    ctx.assert(user, 404);
+    await user.destroy();
+    ctx.body = 'Adios :\'( !';
+  }
+);
+
+baseRouter.get('/files/:fileId', async ctx => {
   const file = await orm.models.File.findById(ctx.params.fileId);
   ctx.assert(file, 404);
   ctx.set('content-type', file.contentType);
   ctx.body = file.content;
 });
 
-ssrRouter.get('/static/:ressource', async ctx => {
+baseRouter.get('/static/:ressource', async ctx => {
   if (ssrCache[ctx.params.ressource]) {
     if (ssrCache[ctx.params.ressource].exist) {
       if (ctx.acceptsEncodings('gzip') === 'gzip') {
@@ -61,8 +85,8 @@ ssrRouter.get('/static/:ressource', async ctx => {
   }
 });
 
-server.use(ssrRouter.routes());
-server.use(ssrRouter.allowedMethods());
+server.use(baseRouter.routes());
+server.use(baseRouter.allowedMethods());
 
 const videoCardRouter = new Router({
   prefix: '/video-cards'
@@ -83,5 +107,6 @@ videoCardRouter.get('/', async ctx => {
 
 server.use(videoCardRouter.routes());
 server.use(videoCardRouter.allowedMethods());
+
 // In case no route match, render react and let the front router handle 404
 server.use(renderer());

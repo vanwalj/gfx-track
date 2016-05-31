@@ -49,14 +49,17 @@
     "bluebird": "^3.4.0",
     "cheerio": "^0.20.0",
     "cron": "^1.1.0",
+    "email-validator": "^1.0.4",
     "inquirer": "^1.0.2",
     "kcors": "^2.1.1",
     "koa": "^2.0.0",
+    "koa-bodyparser": "^3.1.0",
     "koa-compose": "^3.1.0",
     "koa-router": "^7.0.1",
     "numeral": "^1.5.3",
     "pg": "^4.5.5",
     "pg-native": "^1.10.0",
+    "postmark": "^1.2.1",
     "random-ua": "0.0.6",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
@@ -67,6 +70,8 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
-    "sequelize": "^3.23.3"
+    "sequelize": "^3.23.3",
+    "socket.io": "^1.4.6",
+    "socket.io-client": "^1.4.6"
   }
 }

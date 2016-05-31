@@ -21,8 +21,8 @@ const renderFullPage = (html, initialState, scriptLocation) => `
       <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <style>
-          html { font-family: 'Roboto', sans-serif; }
-          body { font-size: 13px; line-height: 20px; margin: 0; }
+          html { font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; }
+          body { font-size: 13px; line-height: 20px; margin: 0; display: flex; flex-direction: column; min-height: 100vh }
       </style>
   </head>
     <body>
@@ -59,8 +59,11 @@ module.exports = () => async ctx => {
           ] }
         ]
       })
+        .map(videoCard => videoCard.toJSON())
+        .map(videoCard => ({ ...videoCard, notificationsEnabled: true }))
     }
   };
+
   const store = redux.createStore(reducer, initialState);
   const html = reactDomServer.renderToString(
     <Provider store={store}>

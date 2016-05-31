@@ -61,7 +61,10 @@ const VideoCard = orm.define('VideoCard', {
 });
 
 const User = orm.define('User', {
-  email: Sequelize.STRING
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 });
 
 Reseller.hasOne(File, { as: 'Logo' });
@@ -85,3 +88,6 @@ VideoCard.hasMany(ResellerVideoCard);
 
 ResellerVideoCard.hasMany(Probe);
 Probe.belongsTo(ResellerVideoCard);
+
+User.belongsToMany(VideoCard, { through: 'UserVideoCard' });
+VideoCard.belongsToMany(User, { through: 'UserVideoCard' });
