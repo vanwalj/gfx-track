@@ -29,22 +29,24 @@ const createProbeAndNotify = (resellerVideoCard, latestProbe, { price, inStock }
       ResellerVideoCardId: resellerVideoCard.id
     })
       .then(probe => {
+        console.log('1', resellerVideoCard.VideoCard.Manufacturer.name);
+        console.log('2', resellerVideoCard.VideoCard.name);
         if (!latestProbe) {
-          tweet(`Les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } sont maintenant listés chez ${ resellerVideoCard.Resseller.name } ! ${ resellerVideoCard.url }`);
+          tweet(`Les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } sont maintenant listés chez ${ resellerVideoCard.Reseller.name } ! ${ resellerVideoCard.url }`);
         }
         if (latestProbe && latestProbe.price > probe.price) {
-          tweet(`Baisse de prix sur les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } chez ${ resellerVideoCard.Resseller.name } ancien prix: ${ numeral(latestProbe.price).format('0,0[.]00 $') }, nouveau prix: ${ numeral(probe.price).format('0,0[.]00 $') }! ${ resellerVideoCard.url }`);
+          tweet(`Baisse de prix sur les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } chez ${ resellerVideoCard.Reseller.name } ancien prix: ${ numeral(latestProbe.price).format('0,0[.]00 $') }, nouveau prix: ${ numeral(probe.price).format('0,0[.]00 $') }! ${ resellerVideoCard.url }`);
         }
         if (probe.inStock === true && (!latestProbe || latestProbe.inStock === false)) {
-          return tweet(`Les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } viennent de passer en stock chez ${ resellerVideoCard.Resseller.name } ! ${ resellerVideoCard.url }`)
+          return tweet(`Les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } viennent de passer en stock chez ${ resellerVideoCard.Reseller.name } ! ${ resellerVideoCard.url }`)
             .catch(e => console.error(e, 'tweet error'))
             .then(() => resellerVideoCard.VideoCard.getUsers())
             .each(user => sendMail({
               "From": "jordan@telephone-ro.se",
               "To": user.email,
-              "Subject": `${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } en stock chez ${ resellerVideoCard.Resseller.name } !`,
+              "Subject": `${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } en stock chez ${ resellerVideoCard.Reseller.name } !`,
               "TextBody": `
-                Yo, on dirait bien que les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } viennent de passer en stock chez ${ resellerVideoCard.Resseller.name } !
+                Yo, on dirait bien que les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } viennent de passer en stock chez ${ resellerVideoCard.Reseller.name } !
 
                 ${ resellerVideoCard.url }
 
