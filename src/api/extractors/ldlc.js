@@ -10,7 +10,7 @@ class LDLCExtractor extends Extractor {
     return super._load()
       .then($ => ({
         price: parseInt(parseFloat($('meta[itemprop="price"]').attr('content').replace(',', '.')) * 100),
-        inStock: $('a#ctl00_cphMainContent_hlDispo').hasClass('d01')
+        inStock: $('a#ctl00_cphMainContent_hlDispo').hasClass('d01') || $('a#ctl00_cphMainContent_hlDispo').hasClass('d02')
       }));
   }
 }
