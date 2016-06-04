@@ -38,12 +38,14 @@ const ResellerVideoCard = orm.define('ResellerVideoCard', {
 const Reseller = orm.define('Reseller', {
   name: Sequelize.STRING,
   slug: Sequelize.STRING,
-  homeUrl: Sequelize.STRING
+  homeUrl: Sequelize.STRING,
+  twitterHandle: Sequelize.STRING
 });
 
 const Manufacturer = orm.define('Manufacturer', {
   name: Sequelize.STRING,
-  homeUrl: Sequelize.STRING
+  homeUrl: Sequelize.STRING,
+  twitterHandle: Sequelize.STRING
 });
 
 const VideoCard = orm.define('VideoCard', {

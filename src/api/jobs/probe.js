@@ -30,21 +30,39 @@ const createProbeAndNotify = (resellerVideoCard, latestProbe, { price, inStock }
     })
       .then(probe => {
         if (!latestProbe) {
-          tweet(`Les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } sont maintenant listés chez ${ resellerVideoCard.Reseller.name } ! ${ resellerVideoCard.url }`);
+          tweet(
+            `Les ${ resellerVideoCard.VideoCard.Manufacturer.twitterHandle || resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } \
+            sont maintenant listés chez ${ resellerVideoCard.Reseller.twitterHandle || resellerVideoCard.Reseller.name } ! ${ resellerVideoCard.url }`
+          )
+            .catch(e => console.error(e));
         }
         if (latestProbe && latestProbe.price > probe.price) {
-          tweet(`Baisse de prix sur les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } chez ${ resellerVideoCard.Reseller.name } ancien prix: ${ numeral(latestProbe.price).format('0,0[.]00 $') }, nouveau prix: ${ numeral(probe.price).format('0,0[.]00 $') }! ${ resellerVideoCard.url }`);
+          tweet(
+            `Baisse de prix sur les \
+            ${ resellerVideoCard.VideoCard.Manufacturer.twitterHandle || resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } \
+            chez ${ resellerVideoCard.Reseller.twitterHandle || resellerVideoCard.Reseller.name } \
+            ancien prix: ${ numeral(latestProbe.price).format('0,0[.]00 $') }, \
+            nouveau prix: ${ numeral(probe.price).format('0,0[.]00 $') }! ${ resellerVideoCard.url }`
+          )
+            .catch(e => console.error(e));
         }
         if (probe.inStock === true && (!latestProbe || latestProbe.inStock === false)) {
-          return tweet(`Les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } viennent de passer en stock chez ${ resellerVideoCard.Reseller.name } ! ${ resellerVideoCard.url }`)
+          return tweet(
+            `Les ${ resellerVideoCard.VideoCard.Manufacturer.twitterHandle || resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } \
+            viennent de passer en stock chez ${ resellerVideoCard.Reseller.twitterHandle || resellerVideoCard.Reseller.name } ! ${ resellerVideoCard.url }`
+          )
             .catch(e => console.error(e, 'tweet error'))
             .then(() => resellerVideoCard.VideoCard.getUsers())
             .each(user => sendMail({
               "From": "jordan@telephone-ro.se",
               "To": user.email,
-              "Subject": `${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } en stock chez ${ resellerVideoCard.Reseller.name } !`,
-              "TextBody": `
-                Yo, on dirait bien que les ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } viennent de passer en stock chez ${ resellerVideoCard.Reseller.name } !
+              "Subject":
+                `${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } \
+                en stock chez ${ resellerVideoCard.Reseller.name } !`,
+              "TextBody":
+                `Yo, on dirait bien que les \
+                ${ resellerVideoCard.VideoCard.Manufacturer.name } ${ resellerVideoCard.VideoCard.name } \
+                viennent de passer en stock chez ${ resellerVideoCard.Reseller.name } !
 
                 ${ resellerVideoCard.url }
 
