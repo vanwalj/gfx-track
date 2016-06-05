@@ -24,7 +24,7 @@ export default connect()(({ dispatch, videoCard }) => (
       <div>
         <span>{videoCard.name}</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
         {videoCard.ResellerVideoCards.map((resellerVideoCard, idx) => {
           return (
             <RaisedButton key={idx} linkButton={true} href={resellerVideoCard.url} style={{ margin: 5 }} primary={resellerVideoCard.Probes[0] && resellerVideoCard.Probes[0].inStock}>

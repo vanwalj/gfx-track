@@ -3,6 +3,22 @@
 const webpack = require('webpack');
 const path = require('path');
 
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': '"production"'
+    }
+  })
+];
+
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    }
+  }));
+}
+
 module.exports = {
   entry: ['./src/app/src/index.js'],
   output: { path: path.resolve(__dirname, 'src/app/dist'), filename: 'bundle.js' },
@@ -23,18 +39,7 @@ module.exports = {
       loader: 'style!css!less'
     }]
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ],
+  plugins,
   devServer: {
     outputPath: path.join(__dirname, 'src/app/dist'),
     contentBase: 'src/app/dist',
