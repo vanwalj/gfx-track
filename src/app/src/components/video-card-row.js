@@ -9,15 +9,15 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Price from './price';
 
 export default connect()(({ dispatch, videoCard }) => (
-  <div style={{ display: 'flex' }}>
-    <div style={{ padding: 10 }}>
+  <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+    <div style={{ padding: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
       {
         videoCard.Logos && videoCard.Logos.length ?
           <img style={{ width: '25vw', height: 'auto' }} src={videoCard.Logos[0].url} /> :
           <img src="http://www.material-ui.com/images/grid-list/camera-813814_640.jpg" />
       }
     </div>
-    <div style={{ display: 'flex', flex: '1 1 auto', alignItems: 'left', justifyContent: 'center', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flex: '1 1 auto', alignItems: 'left', justifyContent: 'center', flexDirection: 'column', padding: 10 }}>
       <div>
         <b>{videoCard.Manufacturer.name}</b>
       </div>
@@ -34,7 +34,7 @@ export default connect()(({ dispatch, videoCard }) => (
         })}
       </div>
     </div>
-    <div style={{ padding: 10, display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
+    <div style={{ padding: 10, display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
       <div>
         <Toggle onToggle={() => dispatch(toggleNotifications(videoCard))} toggled={videoCard.notificationsEnabled} style={{ display: 'flex' }} />
       </div>
