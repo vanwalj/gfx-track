@@ -40,12 +40,14 @@ export default class Layout extends React.Component {
             <div style={{ padding: 10 }}>
               <Paper style={{ flexDirection: 'column' }}>
                 <div>
-                  {videoCards.list.map((videoCard, idx) => (
-                    <div key={idx}>
-                      <VideoCardRow videoCard={videoCard} />
-                      <Divider />
-                    </div>
-                  ))}
+                  {videoCards.list
+                    .map((videoCard, idx) => (
+                      <div key={idx}>
+                        <VideoCardRow videoCard={videoCard} />
+                        <Divider />
+                      </div>
+                    ))
+                  }
                 </div>
               </Paper>
             </div>
